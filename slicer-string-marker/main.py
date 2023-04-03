@@ -20,12 +20,15 @@ if __name__ == '__main__':
 	
 	pyFiles = finder.find_all_py_files(slicer_dir)
 
+	# comment it to make the base folder different of the slicer
+	BASE_DIR = slicer_dir + '/';
+
 	if not os.path.isdir(BASE_DIR):
 		os.mkdir(BASE_DIR);
 
 	fileCount = 0;
 	for file in pyFiles :
-		if not file.endswith('__init__.py') and not file.endswith('__version__.py'):
+		if not file.endswith('__version__.py'):
 			marked_file = BASE_DIR + file;
 			file = slicer_dir + '/' + file;
 			directory = os.path.dirname(marked_file);
@@ -38,8 +41,8 @@ if __name__ == '__main__':
 
 				marker.mark_source_file(file, marked_file)
 				fileCount += 1
-			except:
-				print('\t[-] Error');
+			except Exception as e:
+				print('\t[-] Error', e);
 		else:
 			print("\t[-] Skipped :", file)
 	print(f"\n\n{fileCount} / {len(pyFiles)} fichiers marqués !")
