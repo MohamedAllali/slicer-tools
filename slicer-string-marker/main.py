@@ -21,7 +21,7 @@ if __name__ == '__main__':
 	pyFiles = finder.find_all_py_files(slicer_dir)
 
 	# comment it to make the base folder different of the slicer
-	BASE_DIR = slicer_dir + '/';
+	# BASE_DIR = slicer_dir + '/';
 
 	if not os.path.isdir(BASE_DIR):
 		os.mkdir(BASE_DIR);

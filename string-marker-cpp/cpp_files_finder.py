@@ -6,7 +6,7 @@ def find_all_cpp_files(slicer_root_dir, relative_path=True):
 	slicer_root_dir = os.path.realpath(slicer_root_dir)
 	
 	for root, folders, files in os.walk(slicer_root_dir):
-		cppFiles += [os.path.join(root, file) for file in files if file.endswith('.cpp') or file.endswith('.cxx')]
+		cppFiles += [os.path.join(root, file) for file in files if file.endswith('.cpp') or file.endswith('.cxx') or file.endswith('.h')]
 	files = [uiFile.replace(slicer_root_dir, '')[1:] for uiFile in cppFiles] if relative_path else cppFiles;
 	return files;
 	

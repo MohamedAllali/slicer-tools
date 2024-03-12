@@ -1,4 +1,4 @@
-import re
+import re, sys
 
 def get_source_code(source_file):
 	fichier = open(source_file)
@@ -16,9 +16,14 @@ def get_string_list(source_file):
 	source_code = get_source_code(source_file)
 
 	source_code = re.sub('(#.*)\n', '', source_code); # se débarrasser des #include, #define, ...
+	source_code = re.sub('(/\*.*?\*/)', '', source_code, flags=re.DOTALL); # se débarrasser des commentaires multilignes
+
+	# if not '://' in source_code: # eviter bug avec les liens
+	# 	source_code = re.sub('( */{2,}.*?)\n', '', source_code); # se débarrasser des commentaires monolignes 
+	
 	strings = re.findall('"[^"]*"', source_code);
-	# strings += re.findall("'[^']*'", source_code);
 	all_strings = [string[1:-1] for string in strings if string != '""'];
+
 
 	return all_strings;
 
@@ -35,10 +40,10 @@ def find_all_strings(string, searched):
 			
 def is_markable_string(string):
 	string = string.strip();
-	words_to_ignore = ['temp', 'dicomListener', 'QWidget'];
+	words_to_ignore = ['temp', 'dicomListener', 'QWidget', 'AS IS', '\n'];
 	
 	if (len(string) <= 1) or string.isnumeric() or (len(string) in [2, 3] and string.startswith('%')) \
-	 or string in words_to_ignore:
+	 or string in words_to_ignore or string.startswith('org.'):
 		return False;
 	return True;
 
@@ -81,5 +86,8 @@ def mark_source_file(source_file, marked_source_file=None):
 	save_source_code(source_code, marked_source_file);
 
 if __name__ == '__main__':
-	mark_source_file('test-data/qSlicerSettingsViewsPanel.cxx')
+	# mark_source_file('test-data/vtkSlicerVolumesLogic.h')
+	mark_source_file('test-data/vtkSlicerVolumesLogic.cxx')
+	# mark_source_file('test-data/test.cxx')
+	# mark_source_file('test-data/qSlicerSettingsViewsPanel.cxx')
 	print("Tagging process done !")
