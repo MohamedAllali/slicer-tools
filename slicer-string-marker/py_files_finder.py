@@ -21,4 +21,4 @@ if __name__ == '__main__':
 		else:
 			print("Sorry, the specified parameter is not a folder")
 	else:
-		print("You should specify the slicer root folder as an argument !")
+		print("You should specify the slicer root folder as an argument")
